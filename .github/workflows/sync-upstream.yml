@@ -1,0 +1,42 @@
+name: Sync with upstream
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    name: Sync with midudev/libros-programacion-gratis
+    runs-on: ubuntu-latest
+    if: github.repository != 'midudev/libros-programacion-gratis'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch upstream
+        run: |
+          git remote add upstream https://github.com/midudev/libros-programacion-gratis.git
+          git fetch upstream main
+
+      - name: Merge upstream changes
+        run: |
+          git merge upstream/main --allow-unrelated-histories -X theirs -m "chore: sync with midudev/libros-programacion-gratis" || {
+            echo "Merge failed, aborting."
+            git merge --abort
+            exit 1
+          }
+
+      - name: Push changes
+        run: git push origin HEAD:${{ github.ref_name }}

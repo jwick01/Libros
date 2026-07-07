@@ -1,0 +1,30 @@
+{
+  "name": "librosgratis-dev",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "check:links": "node ./scripts/check-links.mjs",
+    "generate:97-things-pdf": "node ./scripts/generate-97-things-pdf.mjs",
+    "generate:epubs": "node ./scripts/convert-pdfs-to-epub.mjs",
+    "preview": "astro preview",
+    "deploy": "astro build && wrangler deploy",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "13.5.4",
+    "@tailwindcss/vite": "4.3.0",
+    "astro": "6.3.7",
+    "pdfjs-dist": "5.7.284",
+    "tailwind-animations": "1.0.1",
+    "tailwindcss": "4.3.0"
+  },
+  "devDependencies": {
+    "@tabler/icons": "3.44.0",
+    "wrangler": "4.94.0"
+  }
+}
